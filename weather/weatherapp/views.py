@@ -1,5 +1,7 @@
 from django.shortcuts import render
 import requests
+from django.views.generic import DeleteView
+
 from .models import City
 from .forms import CityForm
 
@@ -31,6 +33,7 @@ def index(request):
         lon = res[0].get('lon')
         res_weather = requests.get(url_city.format(lat,lon)).json()
         city_info = {
+            'id': city.id,
             'city' : city.name,
             'temp' : res_weather['main']['temp'],
             'icon': res_weather['weather'][0]['icon']
@@ -41,11 +44,16 @@ def index(request):
     context = {'all_info': all_city, 'form': form, 'error': error}
     return render(request, 'weather/index.html',context)
 
-def delete(request, task_id):
-    task = City.objects.get(id=task_id)
-    task.objects.delete()
+#def delete(request, pk):
+  #  city = City.objects.get(pk=pk)
+  #  city.objects.delete()
+  #  return render(request,'weather/index.html')
 
 def homework(request):
     return render(request, 'weather/homework.html')
 
 # Create your views here.
+class DeleteCity(DeleteView):
+    model=City
+    success_url = '/'
+    template_name = 'weather/delete.html'

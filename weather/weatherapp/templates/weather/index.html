@@ -27,8 +27,8 @@
                     {% csrf_token%}
                     <label for = 'city'>Город</label>
                     {{ form.name}}
-                    <input type="submit" name = 'send' value = "Узнать" class = 'mt-2 btn btn-danger'>
-                    <span>{{error}}</span>
+                    <input type="submit" name = 'send' value = "Узнать" class = 'mt-2 btn btn-danger'> <br><br><br>
+                    <span class="alert alert-warning" role="alert">{{error}}</span>
                 </form>
             </div>
 
@@ -40,6 +40,7 @@
                         <div class="col-9">
                             <b>Город:  </b>{{info.city}}<br>
                             <b>Температура : </b>{{info.temp}} <sup>0</sup>  <br>
+                            <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'delete' info.id%}" style="color: red">Удалить</a>
                         </div>
                         <div class="col-2 offset-1">
                             <img src="https://openweathermap.org/img/wn/{{info.icon}}.png" alt="Фото погоды" class="img-thunbnail">
